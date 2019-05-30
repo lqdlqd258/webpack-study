@@ -96,7 +96,7 @@ eval("module.exports = 'ljc'\n\n//# sourceURL=webpack:///./src/a.js?");
  "./src/index.js":
  (function(module, exports, __webpack_require__) {
 
-eval("let str = __webpack_require__(/*! ./a */ \"./src/a.js\");\r\nconsole.log(`hello ${str}`);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("let str = __webpack_require__(\"./src/a.js\");\r\nconsole.log(`hello ${str}`);\n\n//# sourceURL=webpack:///./src/index.js?");
 
  })
 

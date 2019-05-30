@@ -1,2 +1,2 @@
 let str = require('./a');
-console.log(`hello ${str}`);
+console.log(`Hello ${str}`);
