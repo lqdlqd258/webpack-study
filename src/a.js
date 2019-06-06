@@ -1,3 +1,11 @@
-module.exports = 'ljc'
+module.exports = 'ljc';
+require('@babel/polyfill');
+class B{
 
-require('./css/index.css');
+}
+function * gen(params){
+    yield 1;
+}
+console.log(gen().next());
+
+'aaa'.includes('a');

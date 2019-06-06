@@ -2,13 +2,14 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');                             //(html打包插件)大写，看出它是一个类，在plugins内new一个对象
 let MinCssExtractPlugin = require('mini-css-extract-plugin');                       //(抽离css样式插件) 把html上的style标签内的css抽离，变成以link标签形式外部引入
-                                                                                    //([cnpm install] postcss-loader autoprefixer) 给css内的一些属性添加前缀
+                                                                                    //([cnpm install] postcss-loader autoprefixer) 给css内的一些属性添加前缀，在loader内配置
 let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');        //([cnpm install] TerserJSPlugin optimize-css-assets-webpack-plugin) 压缩打包后的css文件
-let TerserJSPlugin = require('terser-webpack-plugin');                              
+let TerserJSPlugin = require('terser-webpack-plugin');                 
+                                                                                    
 // console.log(path.resolve(__dirname,'dist'));
 // console.log('dist');
 module.exports = {
-    mode:'production',//默认模式两种 production development，生产环境会压缩js代码，开发环境不压缩，方便查看
+    mode:'development',//默认模式两种 production development，生产环境会压缩js代码，开发环境不压缩，方便查看
     entry:'./src/index.js',//入口
     output:{ //出口
         filename:'index.[hash:8].js',//打包后文件名,加hash，每次打包产生不同的xxx[hash].js文件
@@ -45,7 +46,7 @@ module.exports = {
             {test:/\.css$/,use:[
                     MinCssExtractPlugin.loader,
                     'css-loader',
-                    'postcss-loader'
+                    'postcss-loader', //css 自动添加前缀 ([cnpm install] postcss-loader autoprefixer,在外部添加postcss.config.js配置)
                 ]
             },
             //处理less文件 

@@ -2,13 +2,14 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');                             //(html打包插件)大写，看出它是一个类，在plugins内new一个对象
 let MinCssExtractPlugin = require('mini-css-extract-plugin');                       //(抽离css样式插件) 把html上的style标签内的css抽离，变成以link标签形式外部引入
-                                                                                    //([cnpm install] postcss-loader autoprefixer) 给css内的一些属性添加前缀
+                                                                                    //([cnpm install] postcss-loader autoprefixer) 给css内的一些属性添加前缀，在loader内配置
 let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');        //([cnpm install] TerserJSPlugin optimize-css-assets-webpack-plugin) 压缩打包后的css文件
-let TerserJSPlugin = require('terser-webpack-plugin');                              
+let TerserJSPlugin = require('terser-webpack-plugin');                 
+                                                                                    //([cnpm install] babel-loader @babel/core @babel/preset-env) 解析es6语法 还有es7语法 @babel/plugin-proposal-class-properties
 // console.log(path.resolve(__dirname,'dist'));
 // console.log('dist');
 module.exports = {
-    mode:'production',//默认模式两种 production development，生产环境会压缩js代码，开发环境不压缩，方便查看
+    mode:'development',//默认模式两种 production development，生产环境会压缩js代码，开发环境不压缩，方便查看
     entry:'./src/index.js',//入口
     output:{ //出口
         filename:'index.[hash:8].js',//打包后文件名,加hash，每次打包产生不同的xxx[hash].js文件
@@ -37,6 +38,39 @@ module.exports = {
     ],
     module:{ //模块
         rules:[ //规则 
+            // {
+            //     test:/\.js$/,
+            //     use:{
+            //         //规范js语法 ([cnpm install] eslint eslint-loader)  可以到npm官网查配置 以及eslint官网查用法
+            //         loader:'eslint-loader',
+            //         options:{
+            //             enforce:'pre', //previous (强制这个loader在其他普通loader之前执行)  post(在普通loader之后执行)
+            //             exclude: /node_modules/
+            //         }
+            //     },
+            // },
+            //es6语法解析loader
+            {
+                test:/\.js$/, //普通loader
+                use:{
+                    loader:'babel-loader',
+                    options:{//用babel-loader 把es6转换成es5
+                        //这里可以添加大的插件库
+                        presets:[
+                            '@babel/preset-env'
+                        ],
+                        //es7，以及一些内置API方法
+                        plugins:[
+                            // '@babel/plugin-proposal-class-properties' //更高级的语法 需要配置 到官网babeljs.io查看
+                            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                            ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+                            "@babel/plugin-transform-runtime"
+                        ]
+                    }
+                },
+                include:path.resolve(__dirname,'src'),
+                exclude:/node_modules/
+            },
             //css-loader主要负责解析@import这种语法的，把css压缩成一个css ()
             //style-loader 他是把css插入到html页面head的标签中
             //loader的特点 希望单一
@@ -45,7 +79,7 @@ module.exports = {
             {test:/\.css$/,use:[
                     MinCssExtractPlugin.loader,
                     'css-loader',
-                    'postcss-loader'
+                    'postcss-loader', //css 自动添加前缀 ([cnpm install] postcss-loader autoprefixer,在外部添加postcss.config.js配置)
                 ]
             },
             //处理less文件 

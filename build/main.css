@@ -1,1 +1,12 @@
-div{color:pink}body{background:red;-webkit-transform:rotate(45deg);transform:rotate(45deg)}body div{border:1px solid #000}
+body div {
+  border: 1px solid black;
+}
+
+div{
+    color: pink;
+}
+body{
+    background: red;
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
