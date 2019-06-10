@@ -5,7 +5,8 @@ let MinCssExtractPlugin = require('mini-css-extract-plugin');                   
                                                                                     //([cnpm install] postcss-loader autoprefixer) 给css内的一些属性添加前缀，在loader内配置
 let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');        //([cnpm install] TerserJSPlugin optimize-css-assets-webpack-plugin) 压缩打包后的css文件
 let TerserJSPlugin = require('terser-webpack-plugin');                 
-                                                                                    //([cnpm install] babel-loader @babel/core @babel/preset-env) 解析es6语法 还有es7语法 @babel/plugin-proposal-class-properties
+                                                                                    //([cnpm install] babel-loader(转换加载器) @babel/core(babel核心模块) @babel/preset-env(告诉怎么转化)) 解析es6语法 还有es7语法 @babel/plugin-proposal-class-properties
+let webpack = require('webpack');
 // console.log(path.resolve(__dirname,'dist'));
 // console.log('dist');
 module.exports = {
@@ -34,14 +35,22 @@ module.exports = {
         }),
         new MinCssExtractPlugin ({
             filename:'main.css'
-        })
+        }),
+        //提供插件
+        // new webpack.ProvidePlugin({ //在每个模块中都注入$
+        //     $:'jquery'
+        // })
     ],
+    //可以忽略一些要打包文件
+    // externals:{
+    //     jquery:'jQuery'
+    // },
     module:{ //模块
         rules:[ //规则 
             // {
             //     test:/\.js$/,
             //     use:{
-            //         //规范js语法 ([cnpm install] eslint eslint-loader)  可以到npm官网查配置 以及eslint官网查用法
+            //         //规范js语法 ([cnpm install] eslint eslint-loader -D)  可以到npm官网查配置 以及eslint官网查用法
             //         loader:'eslint-loader',
             //         options:{
             //             enforce:'pre', //previous (强制这个loader在其他普通loader之前执行)  post(在普通loader之后执行)
@@ -49,27 +58,35 @@ module.exports = {
             //         }
             //     },
             // },
+            {
+                test:/\.html$/,
+                use:'html-withimg-loader'
+            },
+            {
+                test:/\.(png|jpg|gif)$/,
+                use:'file-loader'
+            },
             //es6语法解析loader
             {
                 test:/\.js$/, //普通loader
                 use:{
                     loader:'babel-loader',
                     options:{//用babel-loader 把es6转换成es5
-                        //这里可以添加大的插件库
+                        //(大插件集合)这里可以添加大的插件库presets，把es6转化成es5
                         presets:[
                             '@babel/preset-env'
                         ],
-                        //es7，以及一些内置API方法
+                        //(小插件)es7，以及一些内置API方法
                         plugins:[
-                            // '@babel/plugin-proposal-class-properties' //更高级的语法 需要配置 到官网babeljs.io查看
-                            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                            // 'npm @babel/plugin-proposal-class-properties -D' //更高级的语法 需要配置 到官网babeljs.io查看
+                            ["@babel/plugin-proposal-decorators", { "legacy": true }],//如用语法@log装饰器,下载这插件
                             ["@babel/plugin-proposal-class-properties", { "loose" : true }],
-                            "@babel/plugin-transform-runtime"
+                            "@babel/plugin-transform-runtime"  //@babel/plugin-transform-runtime @babel/runtime -D
                         ]
                     }
                 },
-                include:path.resolve(__dirname,'src'),
-                exclude:/node_modules/
+                include:path.resolve(__dirname,'src'), //包括
+                exclude:/node_modules/ //排除 node_modules
             },
             //css-loader主要负责解析@import这种语法的，把css压缩成一个css ()
             //style-loader 他是把css插入到html页面head的标签中
