@@ -34,7 +34,7 @@ module.exports = {
             hash:true //添加hash，每次文件改动，html引入的文件路径都加入了hash
         }),
         new MinCssExtractPlugin ({
-            filename:'main.css'
+            filename:'static/css/main.css',
         }),
         //提供插件
         // new webpack.ProvidePlugin({ //在每个模块中都注入$
@@ -64,7 +64,13 @@ module.exports = {
             },
             {
                 test:/\.(png|jpg|gif)$/,
-                use:'file-loader'
+                use:{
+                    loader:'url-loader',
+                    options:{
+                        limit:200*1024,//不大于200k的图片以base64方式产出
+                        outputPath:'static/img/'//打包到img文件夹
+                    }
+                }
             },
             //es6语法解析loader
             {
