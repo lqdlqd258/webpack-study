@@ -20,7 +20,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template:'./index.html',
-            filename:'other.html'
+            filename:'other.html',
             chunks:['other','home']
         })
     ]
