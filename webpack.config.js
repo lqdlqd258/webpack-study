@@ -4,7 +4,7 @@ module.exports = {
     mode:'development',
     //多入口，用对象
     entry:{ 
-         home:'./src/index.js',
+         index:'./src/index.js',
          other:'./src/other.js'
     },
     output:{
@@ -15,13 +15,13 @@ module.exports = {
     plugins:[
         new HtmlWebpackPlugin({
             template:'./index.html',//指定模板
-            filename:'home.html',    //生成模板的名称
-            chunks:['home']
+            filename:'index.html',    //生成模板的名称
+            chunks:['index']
         }),
         new HtmlWebpackPlugin({
             template:'./index.html',
             filename:'other.html',
-            chunks:['other','home']
+            chunks:['other']
         })
     ]
 }
