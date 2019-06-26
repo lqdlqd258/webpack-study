@@ -3,24 +3,24 @@
 
 ## webpack 安装
 
-######初始化一个项目
+#####初始化一个项目
     -npm init
-######安装本地的webpack
+#####安装本地的webpack
     （局部安装，并且可以根据项目的不同安装不同版本的webpack）
     （通过安装npm install webpack@3.6.0 -D等等旧版本--项目构建初期，当package.json已经指定，就直接npm install）
 
     -npm install webpack webpack-cli -D
-######额外：
+#####额外：
 - 输入 touch .gitignore ，生成“.gitignore”文件
 - 添加：node_modules/   表示过滤这个文件夹
 - *.zip   过滤zip后缀文件
 - demo.html   过滤该文件
 ## webpack可以进行0配置
-######定义：
+#####定义：
     打包工具->输出后结果（js模块）
-######打包
+#####打包
     （支持我们js的模块化）
-######变化
+#####变化
     相比较以前版本webpack，把一些配置项变成默认配置项，如：
       webpack 4.x提供了约定大于配置的概念:目的是为了尽量减少 配置文件的提及
 
@@ -29,7 +29,7 @@
           2.打包的输出文件默认是 dist -> main.js
           3. 4.x中新增了mode选项，可选的值为: production development
 ## 手动配置webpack
-######默认配置文件的名字: webpack.config.js
+#####默认配置文件的名字: webpack.config.js
     package.json 配置
     {
       "name": "webpack-study",
@@ -53,20 +53,20 @@
 - 主要功能是：把解析的所有模块变成一个个对象，然后通过唯一入口，去加载这些对象，依次实现递归的依赖关系，然后通过入口运行所有的模块（文件）
 - 重点:Html插件
 ## webpack-dev-server
-######需要安装:webpack-dev-server	html-webpack-plugin
+#####需要安装:webpack-dev-server	html-webpack-plugin
 
     不会真实的打包文件，只是在内存中打包，把文件写入内存中，生成localhost:3000端口
       -npm install webpack-dev-server -D
 
     运行：npx webpack-dev-server
 
-######在package.json下配置:
+#####在package.json下配置:
 
     "scripts":{
       "dev":"webpack-dev-server"
     }
 
-######在webpack.config.js下配置
+#####在webpack.config.js下配置
 
       let HtmlWebpackPlugin = require('html-webpack-plugin');
       module.exports = {
@@ -78,7 +78,7 @@
           compress:true //采用gzip压缩,当它被设置为true的时候对所有的服务器资源采用gzip压缩 
         }，
 
-######针对contentBase之后配置
+#####针对contentBase之后配置
       plugins:[
       new HtmlWebpackPlugin({
       template:'./src/index.html', //指定模板路径
@@ -91,7 +91,7 @@
       })
       ]
 
-######针对hash:true，ouput打包后文件也加上hash//可以防止覆盖和缓存问题
+#####针对hash:true，ouput打包后文件也加上hash//可以防止覆盖和缓存问题
 
       output:{ //出口
       filename:'index.[hash:8].js',  //打包后文件名,加hash，每次打包产生不同的xxx[hash].js文件
@@ -99,7 +99,7 @@
           },
       }
 
-######新增：
+#####新增：
       devServer的一个项目中使用的实际例子：
 
         devServer: {
@@ -121,7 +121,7 @@
                 }
             }，//重定向
 
-######接下来我们根据上面的实际例子逐条解析，balabalabala～～～开始了：
+#####接下来我们根据上面的实际例子逐条解析，balabalabala～～～开始了：
 
     1、contentBase
     Tell the server where to serve content from. This is only necessary if you want to serve static files. devServer.publicPath will be used to determine where the bundles should be served from, and takes precedence.
@@ -260,10 +260,10 @@
 
 - 重点:webpack中解析css模块
 ## 引入css，通过css-loader
-######处理css需要安装:css-loader  style-loader
+#####处理css需要安装:css-loader  style-loader
     处理less sass需要安装:下面备注
 
-######在webpack.config.js下配置：
+#####在webpack.config.js下配置：
 
     module.exports = {
     module:{ //模块
@@ -303,9 +303,9 @@
 
 - __重点:以link标签形式,抽离css样式__
 ## 抽离css样式
-######需要安装:mini-css-extract-plugin -D
+#####需要安装:mini-css-extract-plugin -D
 
-######在webpack.config.js下配置
+#####在webpack.config.js下配置
 
       let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -333,7 +333,7 @@
       ]
       }
       }
-######可以针对css抽离一份，以及less或者sass等抽离一份，配置：
+#####可以针对css抽离一份，以及less或者sass等抽离一份，配置：
       let MiniCssExtractPlugin = require('mini-css-extract-plugin');
       let MiniLessExtractPlugin = require('mini-css-extract-plugin');
       module.exports = {
@@ -365,16 +365,16 @@
       }
 
 ## 自动添加前缀
-######需要安装:postcss-loader autoprefixer -D
+#####需要安装:postcss-loader autoprefixer -D
 
-######需要新建文件：在webpac.config.js同级目录下新建postcss.config.js文件
+#####需要新建文件：在webpac.config.js同级目录下新建postcss.config.js文件
 
-######postcss.config.js文件内容为：
+#####postcss.config.js文件内容为：
     module.exports = {
         plugins:[require('autoprefixer')] //导出插件autoprefixer
     }
 
-######在webpack.config.js下配置：
+#####在webpack.config.js下配置：
     module.exports = {
       plugins:[
         new MiniCssExtractPlugin({
@@ -401,9 +401,9 @@
     }
 
 ## 把模式改成'pruduction'
-######css打包压缩,需要进入npm官网查找mini-css-extract-plugin，看看文档
+#####css打包压缩,需要进入npm官网查找mini-css-extract-plugin，看看文档
 
-######需要安装:optimize-css-assets-webpack-plugin	terser-webpack-plugin
+#####需要安装:optimize-css-assets-webpack-plugin	terser-webpack-plugin
 
     let OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); //打包后的css文件
     let TerserJSPlugin = require('terser-webpack-plugin');   
@@ -417,9 +417,9 @@
 
 - 重点:babel
 ## es6转换
-######需要安装:babel-loader @babel/core @babel/preset-env
+#####需要安装:babel-loader @babel/core @babel/preset-env
 
-######(进行转换加载器) (babel核心模块,调用transform，转换源代码) (告诉如何转换,把es6转换成低级语法)
+#####(进行转换加载器) (babel核心模块,调用transform，转换源代码) (告诉如何转换,把es6转换成低级语法)
 
     module.exports = {
       module:{
@@ -443,7 +443,7 @@
     // class A{  //es7 等于 new A() a = 1
     //     a = 2;
     // }
-######需要安装:不用记住，自己打包或运行会提示需要的插件(@babel/plugin-proposal-class-properties -D)
+#####需要安装:不用记住，自己打包或运行会提示需要的插件(@babel/plugin-proposal-class-properties -D)
 
     module.exports = {
       module:{
@@ -471,7 +471,7 @@
 
 - __重点:es7实例上的方法补丁，以及ESlint__
 ## es7转换
-######需要安装:@babel/plugin-transform-runtime -D  @babel/runtime -S（--save）
+#####需要安装:@babel/plugin-transform-runtime -D  @babel/runtime -S（--save）
 
     module.exports = {
       module:{
@@ -499,17 +499,17 @@
     }
 
 ## 更高级的语法
-######需要安装:@babel/polyfill -S，如:
+#####需要安装:@babel/polyfill -S，如:
     'aaa'.includes('a');
 
-######在需要用到的js下配置:
+#####在需要用到的js下配置:
 
     require('@babel/polyfill');
 
     'aaa'.includes('a');
 
 ## ESlint (官网eslint.org)
-######需要安装:eslint eslint-loader -D
+#####需要安装:eslint eslint-loader -D
 
     module.exports = {
       rules:[
@@ -531,12 +531,12 @@
 ## 如安装juqery
     需要安装:jquery -S
 
-######使用方法一：js文件中直接引入
+#####使用方法一：js文件中直接引入
 
     import $ from 'jquery';
     console.log($); 
 
-######使用方法二(有点变态)：暴露全局(给window对象)的 expose-loader  （目前loader使用方式共:
+#####使用方法二(有点变态)：暴露全局(给window对象)的 expose-loader  （目前loader使用方式共:
     1.pre 前面执行loader
     2.normal 普通loader
     3.内联的loader
@@ -546,7 +546,7 @@
     import $ from 'expose-loader?$!jquery';
     console.log(window.$); 
 
-######使用方法三：直接在webpack.config.js下配置
+#####使用方法三：直接在webpack.config.js下配置
     module.exports = {
       module:{
         rules:[
@@ -557,11 +557,11 @@
         ]
       }
     }
-######然后在js下配置
+#####然后在js下配置
     import $ from 'jquery';
     console.log(window.$); 
 
-######使用方法四：在每个模块中注入$对象（需要webpack插件）
+#####使用方法四：在每个模块中注入$对象（需要webpack插件）
     let webpack = reuqire('webpack');
     module.exports = {
       plugins:[
@@ -570,10 +570,10 @@
         }
       ]
     }
-######然后在js下配置
+#####然后在js下配置
     console.log($); 
 ---
-######补充：
+#####补充：
     module.exports = {
       externals:{
         jquery:'jQuery'
@@ -583,12 +583,12 @@
 - 重点:webpack打包我们的图片
 ## 图片打包方式
 
-######打包方式：
+#####打包方式：
     1）在js中创建图片引入
     2）在css引入 background:url('')
     3）在html中引入,<img src="" alt=""/>
 
-######1）需要安装:file-loader          //默认会在内部生成一张图片 到build目录下，把生成图片的名字返回
+#####1）需要安装:file-loader          //默认会在内部生成一张图片 到build目录下，把生成图片的名字返回
     import logo from './logo.png' //把图片引入，返回的结果是一个新的图片地址，内部会把logo.png发射处去(loader的帮助导致)
     module.exports = {
       module:{
@@ -600,21 +600,21 @@
         ]
       }
     }
-######然后在js下配置
+#####然后在js下配置
 
 
     import logo from './logo.png';//let logo = require('./logo.png');
     let image = new Image();
     image.src = logo;
 
-######2）需要安装:css-loader  //可能之前装了,css-loader会把background:url("./logo.png")转换成background:url(require("./logo.png"))
+#####2）需要安装:css-loader  //可能之前装了,css-loader会把background:url("./logo.png")转换成background:url(require("./logo.png"))
 
-######在css文件下
+#####在css文件下
     body{
       background:url("./logo.png");
     }
 
-######3）需要安装:html-withimg-loader -D
+#####3）需要安装:html-withimg-loader -D
     module.exports = {
       module:{
         rules:[
@@ -625,7 +625,7 @@
         ]
       }
     }
-######4）补充：针对图片小，就不去发送http请求图片，而是以base64（base64比源文件会大1/3）方式加载，一般不直接用file-loader，而是用url-loader -D
+#####4）补充：针对图片小，就不去发送http请求图片，而是以base64（base64比源文件会大1/3）方式加载，一般不直接用file-loader，而是用url-loader -D
 
     优点：做一个限制，当我们的图片小于多少k的时候，就用base64来转化,否则用file-loader产生真实的图片（需要请求那种）
 
@@ -657,7 +657,7 @@
     }
 
 ## img分配目录
-######直接在webpack.config.js下配置（会把所有图片地址自动修改成该地址）
+#####直接在webpack.config.js下配置（会把所有图片地址自动修改成该地址）
 
     module.exports = {
       module:{
@@ -677,7 +677,7 @@
       }
     }
 ## css分配目录
-######(详情看 6.样式处理2)
+#####(详情看 6.样式处理2)
 
     module.exports = {
       plugins:[
