@@ -1,8 +1,8 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
-// const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     //多入口，用对象
@@ -10,13 +10,7 @@ module.exports = {
     devServer:{
         progress: true,
         // open: true,
-        port: 8000,
-        proxy:{ //重写方式  把请求代理到express服务器上
-            '/api':{
-                target:'http://localhost:3000',
-                pathRewrite:{'/api':''}
-            } //配置了一个代理
-        }
+        port: 8000
     },
     entry:{ 
          index:'./src/index.js'
@@ -52,13 +46,11 @@ module.exports = {
             chunks:['index']
         }),
         new CleanWebpackPlugin(),
-        // new CopyPlugin(
-        //     [
-        //         {
-        //             from:'./data',to:'./'
-        //         }
-        //     ]
-        // ),
-        // new webpack.BannerPlugin('make 2019 by ljc')
+        new CopyPlugin([
+            {
+                from:'./data',to:'./'
+            }
+        ]),
+        new webpack.BannerPlugin('make 2019 by ljc')
     ]
 }
